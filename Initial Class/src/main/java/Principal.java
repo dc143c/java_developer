@@ -1,6 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -301,6 +307,25 @@ public class Principal {
         System.out.println(ctimpar + " valor(es) impar(es)");
         System.out.println(ctpos + " valor(es) positivo(s)");
         System.out.println(ctneg+ " valor(es) negativo(s)");
+    }
+
+    public static void TesteConnection(String[] args) throws IOException {
+        URL url = new URL("https://www.facebook.com");
+        URLConnection urlconnection = url.openConnection();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlconnection.getInputStream()));
+
+        System.out.println(bufferedReader.lines().collect(Collectors.joining()).replaceAll(">", ">\n"));
+
+    }
+
+    public static void Http1ClientTesting(String[] args) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("https://www.facebook.com")).build();
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.statusCode());
+        System.out.println(response.headers());
+        System.out.println(response.body());
     }
 
 }
