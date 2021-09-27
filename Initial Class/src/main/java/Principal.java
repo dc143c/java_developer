@@ -9,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Scanner;
 
 public class Principal {
 
@@ -326,6 +327,35 @@ public class Principal {
         System.out.println(response.statusCode());
         System.out.println(response.headers());
         System.out.println(response.body());
+    }
+
+    public static void TesteFiltros(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> participantes =
+                br.lines()
+                .collect(Collectors.toList())
+                .stream().filter(it -> {
+                    return it.contains(" ");
+                }).collect(Collectors.toList());
+        System.out.println(participantes);
+    }
+
+    void method(Object o) {
+        System.out.println("object");
+    }
+
+    void method(String s) {
+        System.out.println("string");
+    }
+
+    public static void main(String[] args) {
+        new Principal().method((Object) "random");
+
+        String x = "random";
+        Object y = x;
+
+        new Principal().method(x);
+        new Principal().method(y);
     }
 
 }
